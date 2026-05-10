@@ -49,19 +49,20 @@ A Full Stack Ayurvedic E-Commerce Web Application built using MERN Stack.
 
 ## Website Loading Animation Page
 
-![Home](.docs/screenshots/loadingAnimation.png)
+![Loading](docs/screenshots/loadingAnimation.png)
+
 
 ## Home Page
 
-![Home](.docs/screenshots/homePage.png)
+![Home](docs/screenshots/homePage.png)
 
 ## Cart Page
 
-![Cart](.docs/screenshots/orderPage.png)
+![Cart](docs/screenshots/orderPage.png)
 
 ## Checkout
 
-![Checkout](.docs/screenshots/paymentPage.png)
+![Checkout](docs/screenshots/paymentPage.png)
 
 
 
