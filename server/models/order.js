@@ -144,6 +144,15 @@ trackingId: {
     ).toString()
 },
 
+
+// ================= VERIFIED OTP =================
+
+otpVerified: {
+  type: Boolean,
+  default: false
+},
+
+
   // ================= DELIVERY DATE =================
 
  estimatedDelivery: {
