@@ -17,7 +17,7 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
 
 
 const navigate = useNavigate();
-const [showNoResult, setShowNoResult] = useState(false);
+
 
   const isInCart = (productId) => {
     return cartItems.some(
@@ -97,24 +97,7 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-  const params = new URLSearchParams(location.search);
 
-  const hasFilter =
-    params.get("category") ||
-    params.get("maxPrice") ||
-    params.get("minPrice");
-
-  if (hasFilter && products.length === 0) {
-    setShowNoResult(true);
-
-    setTimeout(() => {
-      setShowNoResult(false);
-      navigate("/"); // reset filters
-    }, 4000);
-  }
-
-}, [products, location.search]);
 
 
 
