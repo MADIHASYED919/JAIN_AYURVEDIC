@@ -6,7 +6,7 @@ const connectDB = async () => {
 
     await mongoose.connect(
     //  "mongodb://127.0.0.1:27017/jain-store"
-    process.env.MONGO_URL
+    process.env.MONGO_URI
     );
 
     console.log("DB Connected");

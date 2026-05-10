@@ -98,7 +98,7 @@ app.use(session({
 
   store: MongoStore.create({
     mongoUrl:
-      "mongodb://127.0.0.1:27017/jain-store",
+      process.env.MONGO_URI,
   }),
 
   secret: "mysupersecretkey",
