@@ -24,9 +24,25 @@ const [showNoResult, setShowNoResult] = useState(false);
       (item) => String(item.productId) === String(productId),
     );
   };
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+
+
+
+
+ const filteredProducts =
+  searchQuery.trim()
+    ? products.filter((p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : products;
+
+const isLoading = products.length === 0;
+
+const showNoResult =
+  !isLoading &&
+  filteredProducts.length === 0;
+
+
+
 
   const addToCart = async (product) => {
    
@@ -106,8 +122,7 @@ useEffect(() => {
     <div className="container">
 
 
-
-{filteredProducts.length === 0 && (
+{showNoResult && (
   <motion.div
     style={{
       background: "#1B5E20",
@@ -124,6 +139,7 @@ useEffect(() => {
     ❌ No matching products found
   </motion.div>
 )}
+
 
       <h2 className="section-title">Medicines</h2>
 

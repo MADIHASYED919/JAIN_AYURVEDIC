@@ -111,14 +111,15 @@ app.use(session({
 
   saveUninitialized: false,
 
-  cookie: {
+cookie: {
   httpOnly: true,
-  secure: true,
+  secure: true, // keep for production HTTPS
   sameSite: "none",
   maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
 }));
+app.set("trust proxy", 1);
 
 // =======================================
 // ROUTES

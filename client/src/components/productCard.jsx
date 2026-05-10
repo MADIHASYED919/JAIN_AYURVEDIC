@@ -63,7 +63,7 @@ useEffect(() => {
         <FaHeart className={liked ? "heart active" : "heart"} />
       </div>
 
-      <img src={product.image} alt={product.name} />
+      <img src={product.image?.[0]} alt={product.name} />
 
       <h4>{product.name}</h4>
       <p className="category">{product.category}</p>
