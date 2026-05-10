@@ -18,7 +18,7 @@ const AdminOrders = () => {
     try {
 
       const res = await axios.get(
-        "/api/orders/admin/all",{ withCredentials: true }
+        "/api/orders/admin/all",
       );
 
       setOrders(res.data);

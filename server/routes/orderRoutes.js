@@ -13,6 +13,7 @@ const {
 
   outForDeliveryTemplate,
 
+  
   deliveredTemplate,
 
   adminOrderTemplate,
@@ -34,7 +35,7 @@ const validateOrderSchema = (req, res, next) => {
 // ✅ PLACE ORDER
 router.post("/place", isAuth, async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const { address, items } = req.body;
 
@@ -96,7 +97,7 @@ router.post("/place", isAuth, async (req, res) => {
     const order = new Order({
       userId,
 
-      email: req.session.user.email,
+      email: req.user.email,
 
       items: fixedItems,
 
@@ -180,7 +181,7 @@ Tracking ID: ${order.trackingId}`,
 
 // ✅ GET USER ORDERS
 router.get("/my", isAuth, async (req, res) => {
-  const userId = req.session.user.id;
+  const userId = req.user.id;
 
   const orders = await Order.find({ userId }).sort({ createdAt: -1 });
 

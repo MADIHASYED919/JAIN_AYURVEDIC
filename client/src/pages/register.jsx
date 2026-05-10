@@ -10,20 +10,40 @@ const Register = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
 
-   const handleRegister = async () => {
-    try {
-      await axios.post("/api/auth/register",form);
+ 
 
-      toast.success("Account created successfully 🌿✨");
+  const handleRegister = async () => {
 
-      setTimeout(() => {
-        navigate("/");
-      }, 1200);
+  try {
 
-    } catch (err) {
-      toast.error(err.response?.data?.error || "Signup failed ❌");
-    }
-  };
+    const res = await axios.post(
+      "/api/auth/register",
+      form
+    );
+
+    // ✅ SAVE TOKEN
+    localStorage.setItem(
+      "token",
+      res.data.token
+    );
+
+    toast.success(
+      "Account created successfully 🌿✨"
+    );
+
+    setTimeout(() => {
+      navigate("/");
+    }, 1200);
+
+  } catch (err) {
+
+    toast.error(
+      err.response?.data?.error ||
+      "Signup failed ❌"
+    );
+
+  }
+};
   
 
   return (

@@ -5,8 +5,6 @@ require("./config/db");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -41,17 +39,7 @@ io.on("connection", (socket) => {
 
   console.log("User Connected:", socket.id);
 
-  // // JOIN ORDER ROOM
-
-  // socket.on("joinOrderRoom", (orderId) => {
-
-  //   socket.join(orderId);
-
-  //   console.log(
-  //     `User joined room: ${orderId}`
-  //   );
-
-  // });
+ 
 
   socket.on("disconnect", () => {
 
@@ -64,11 +52,7 @@ io.on("connection", (socket) => {
 
 });
 
-// =======================================
-// MAKE IO GLOBAL
-// =======================================
 
-app.set("io", io);
 
 // =======================================
 // MIDDLEWARE
@@ -94,29 +78,7 @@ app.use(express.json());
 // .then(() => console.log("DB Connected"))
 // .catch(err => console.log(err));
 
-// =======================================
-// SESSION
-// =======================================
 
-app.use(session({
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-  }),
-
-  secret: "mysupersecretkey",
-  resave: false,
-  saveUninitialized: false,
-
-  cookie: {
-    httpOnly: true,
-    secure: true,        // MUST be true on Render HTTPS
-    sameSite: "none",    // MUST for cross-site (Vercel ↔ Render)
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  }
-}));
-
-
-app.set("trust proxy", 1);
 
 // =======================================
 // ROUTES
@@ -165,13 +127,13 @@ app.use("/api/test-mail", testMailRoutes);
 // CHECK USER
 // =======================================
 
-app.get("/api/auth/me", (req, res) => {
+// app.get("/api/auth/me", (req, res) => {
 
-  res.json({
-    user: req.session.user || null
-  });
+//   res.json({
+//     user: req.session.user || null
+//   });
 
-});
+// });
 
 // =======================================
 // START SERVER

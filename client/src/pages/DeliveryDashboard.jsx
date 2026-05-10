@@ -21,7 +21,7 @@ const DeliveryDashboard = () => {
     try {
 
       const res = await axios.get(
-        "/api/orders/admin/all",{ withCredentials: true }
+        "/api/orders/admin/all",
       );
 
       // ONLY OUT FOR DELIVERY

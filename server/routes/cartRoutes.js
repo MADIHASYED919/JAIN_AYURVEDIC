@@ -7,7 +7,7 @@ const isAuth = require("../middleware/isAuth");
 
 router.get("/", isAuth, async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const cart = await Cart.findOne({ userId });
 
@@ -25,9 +25,9 @@ router.get("/", isAuth, async (req, res) => {
 router.post("/add",isAuth, async (req, res) => {
   try {
 
-     const userId = req.session.user.id; // ✅ FIXED
+     const userId = req.user.id; // ✅ FIXED
 
-     
+
     const {productId, name, price, image, qty } = req.body;
 const finalImage = Array.isArray(image) ? image[0] : image;
 
@@ -73,7 +73,7 @@ if (!image) {
 // REMOVE FROM CART
 router.post("/remove",isAuth ,async (req, res) => {
   try {
-      const userId = req.session.user.id;
+      const userId = req.user.id;
     const {  productId } = req.body;
 
     let cart = await Cart.findOne({ userId });
@@ -98,7 +98,7 @@ router.post("/remove",isAuth ,async (req, res) => {
 // SAVE FOR LATER
 router.post("/save-for-later", isAuth, async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const { productId } = req.body;
 
@@ -160,7 +160,7 @@ cart.savedItems.push(item);
 router.post("/move-to-cart", isAuth, async (req, res) => {
   try {
 
-    const userId = req.session.user.id;
+    const userId = req.user.id;
 
     const { productId } = req.body;
 

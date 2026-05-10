@@ -117,14 +117,24 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
   }, []);
 
   const logout = async () => {
-    try {
-      await axios.post("/api/auth/logout",);
-      setUser(null);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+  try {
+
+    await axios.post("/api/auth/logout");
+
+    // ✅ REMOVE TOKEN
+    localStorage.removeItem("token");
+
+    setUser(null);
+
+    navigate("/");
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+};
 
   const startVoiceSearch = () => {
     const SpeechRecognition =

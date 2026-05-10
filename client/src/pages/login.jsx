@@ -15,19 +15,36 @@ const Login = () => {
 
 
   const handleLogin = async () => {
-    try {
-      const res = await axios.post("/api/auth/login", form);
+  try {
 
-      toast.success(`Welcome back ${res.data.user.name} 🎉`);
+    const res = await axios.post(
+      "/api/auth/login",
+      form
+    );
 
-      setTimeout(() => {
-        navigate(redirect);
-      }, 1000);
+    // ✅ STORE TOKEN
+    localStorage.setItem(
+      "token",
+      res.data.token
+    );
 
-    } catch (err) {
-      toast.error(err.response?.data?.error || "Login failed ❌");
-    }
-  };
+    toast.success(
+      `Welcome back ${res.data.user.name} 🎉`
+    );
+
+    setTimeout(() => {
+      navigate(redirect);
+    }, 1000);
+
+  } catch (err) {
+
+    toast.error(
+      err.response?.data?.error ||
+      "Login failed ❌"
+    );
+
+  }
+};
 
   return (
     <div className="auth-container">

@@ -14,9 +14,7 @@ const AdminDashboard = () => {
 
   const addProduct = async () => {
     try {
-    await axios.post("/api/products/add", product, {
-  withCredentials: true
-});
+    await axios.post("/api/products/add", product,);
       alert("✅ Product added!");
     } catch (err) {
       alert("❌ Only admin allowed");

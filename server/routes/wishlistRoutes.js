@@ -6,7 +6,7 @@ const isAuth = require("../middleware/isAuth");
 
 // ✅ GET wishlist
 router.get("/", isAuth, async (req, res) => {
-  const userId = req.session.user.id;
+  const userId = req.user.id;
 
   const wishlist = await Wishlist.findOne({ userId });
 
@@ -18,7 +18,7 @@ router.get("/", isAuth, async (req, res) => {
 
 router.post("/add", isAuth, async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = req.user.id;
     const { _id, name, price, image } = req.body;
 
     const finalImage = Array.isArray(image) ? image : [image];
@@ -57,7 +57,7 @@ router.post("/add", isAuth, async (req, res) => {
 
 // ✅ REMOVE
 router.post("/remove", isAuth, async (req, res) => {
-  const userId = req.session.user.id;
+  const userId = req.user.id;
   const { productId } = req.body;
 
   let wishlist = await Wishlist.findOne({ userId });

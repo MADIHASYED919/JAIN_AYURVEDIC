@@ -1,6 +1,13 @@
 module.exports = (req, res, next) => {
-  if (!req.session.user || !req.session.user.isAdmin) {
-    return res.status(403).json({ error: "Admin only" });
+
+  if (!req.user || !req.user.isAdmin) {
+
+    return res.status(403).json({
+      error: "Admin only"
+    });
+
   }
+
   next();
+
 };
