@@ -74,7 +74,7 @@ useEffect(() => {
         minPrice
       }
     })
-    .then((res) => setProducts(res.data))
+    .then((res) => setProducts(res.data.products || []))
     .catch(console.log);
 }, [location.search]);
 
