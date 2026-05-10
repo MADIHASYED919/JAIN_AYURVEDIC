@@ -191,11 +191,6 @@ const products = [
 
 
 
-
-
-
-
-
 ];
 
 async function seed() {
