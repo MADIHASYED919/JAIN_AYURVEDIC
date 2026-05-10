@@ -1,0 +1,121 @@
+/* FULL PAGE LAYOUT */
+.success-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🌿 Brand gradient (matches your Ayurvedic theme) */
+  background: linear-gradient(135deg, #1b5e20, #2e7d32, #4caf50);
+
+  padding: 20px;
+}
+
+/* CARD */
+.success-card {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+
+  animation: fadeInScale 0.6s ease;
+}
+
+/* CHECKMARK CIRCLE */
+.checkmark-circle {
+  width: 100px;
+  height: 100px;
+  background: #4caf50;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 20px;
+
+  animation: pop 0.4s ease;
+}
+
+.checkmark {
+  font-size: 50px;
+  color: white;
+  font-weight: bold;
+}
+
+/* TEXT */
+.success-card h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #1b5e20;
+}
+
+.success-card p {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* BUTTON */
+.success-card button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #1b5e20;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.success-card button:hover {
+  background: #2e7d32;
+  transform: translateY(-2px);
+}
+
+/* ANIMATIONS */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* 📱 MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+  .success-card {
+    padding: 30px 20px;
+  }
+
+  .success-card h2 {
+    font-size: 20px;
+  }
+
+  .checkmark-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .checkmark {
+    font-size: 40px;
+  }
+}

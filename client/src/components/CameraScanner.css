@@ -1,0 +1,102 @@
+.lens-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #2E7D32;
+}
+
+/* CAMERA */
+.lens-camera {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* OVERLAY */
+.lens-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* SCAN FRAME */
+.scan-frame {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  border: 3px solid white;
+  border-radius: 20px;
+}
+
+/* SCAN LINE */
+.scan-line {
+  height: 3px;
+  width: 100%;
+  background: #00ff88;
+  position: absolute;
+  animation: scan 2s infinite;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+/* CONTROLS */
+.lens-controls {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* BUTTONS */
+.capture-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #2E7D32;
+  color: white;
+  font-size: 20px;
+  border: none;
+}
+
+.upload-btn {
+  background: white;
+  color: #2E7D32;
+  padding: 10px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* LOADING */
+.loading-box {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  padding: 15px 20px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+}
+
+/* RESULT */
+.result-drawer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 20px 20px 0 0;
+}
