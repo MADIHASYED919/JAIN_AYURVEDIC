@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 import "./medicineScanner.css"
 
 const MedicineScanner = () => {
@@ -18,7 +19,7 @@ const MedicineScanner = () => {
     setLoading(true);
 
     const res = await axios.post(
-      "http://localhost:5000/api/scan",
+      "/api/scan",
       formData,
       {
         headers: {

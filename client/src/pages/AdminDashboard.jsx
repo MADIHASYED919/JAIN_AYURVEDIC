@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 
 const AdminDashboard = () => {
   const [product, setProduct] = useState({

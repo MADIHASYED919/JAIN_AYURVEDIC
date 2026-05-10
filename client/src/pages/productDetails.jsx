@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 import "./productDetails.css";
 import ImageZoom from "../components/imageZoom";
 import toast from "react-hot-toast";
@@ -23,7 +24,7 @@ const ProductDetails = ({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`/api/products/${id}`)
       .then((res) => {
         const data = res.data;
 
@@ -41,7 +42,7 @@ const ProductDetails = ({
     if (!id) return;
 
     axios
-      .get(`http://localhost:5000/api/products/related/${id}`)
+      .get(`/api/products/related/${id}`)
       .then((res) => setRelatedProducts(res.data))
       .catch(console.log);
   }, [id]);

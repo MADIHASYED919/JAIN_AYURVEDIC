@@ -226,7 +226,7 @@ useEffect(() => {
                 className="invoice-btn"
                 onClick={() =>
                   window.open(
-                    `http://localhost:5000/api/orders/invoice/${order._id}`,
+                    `/api/orders/invoice/${order._id}`,
                     "_blank",
                   )
                 }

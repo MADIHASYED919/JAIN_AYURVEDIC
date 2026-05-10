@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/productCard";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -66,7 +67,7 @@ useEffect(() => {
 
 
   axios
-    .get("http://localhost:5000/api/products", {
+    .get("/api/products", {
       params: {
         category,
         maxPrice,

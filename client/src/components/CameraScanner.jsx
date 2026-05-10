@@ -165,7 +165,8 @@
 
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 import "./CameraScanner.css";
 
 const CameraScanner = () => {
@@ -191,7 +192,7 @@ const CameraScanner = () => {
       setResult(null);
 
       const res = await axios.post(
-        "http://localhost:5000/api/scan",
+        "/api/scan",
         formData
       );
 
@@ -217,7 +218,7 @@ const CameraScanner = () => {
       setResult(null);
 
       const res = await axios.post(
-        "http://localhost:5000/api/scan",
+        "/api/scan",
         formData
       );
 

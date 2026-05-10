@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+
+import axios from "../axiosConfig";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaLeaf, FaLock, FaEnvelope } from "react-icons/fa";
 import "./auth.css";
