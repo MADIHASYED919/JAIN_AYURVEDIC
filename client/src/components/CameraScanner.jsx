@@ -30,7 +30,7 @@ const CameraScanner = () => {
       setResult(null);
 
       const res = await axios.post(
-        "/api/scan",{ withCredentials: true },
+        "/api/scan",
         formData
       );
 
@@ -56,7 +56,7 @@ const CameraScanner = () => {
       setResult(null);
 
       const res = await axios.post(
-        "/api/scan",{ withCredentials: true },
+        "/api/scan",
         formData
       );
 

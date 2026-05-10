@@ -14,7 +14,7 @@ const AdminDashboard = () => {
 
   const addProduct = async () => {
     try {
-    await axios.post("/api/products/add", { withCredentials: true },product, {
+    await axios.post("/api/products/add", product, {
   withCredentials: true
 });
       alert("✅ Product added!");

@@ -59,7 +59,7 @@ const DeliveryDashboard = () => {
 
       const res = await axios.post(
 
-        `/api/orders/verify-delivery-otp/${orderId}`,{ withCredentials: true },
+        `/api/orders/verify-delivery-otp/${orderId}`,
 
         {
           otp: otpData[orderId]

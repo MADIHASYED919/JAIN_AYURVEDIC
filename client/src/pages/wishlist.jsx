@@ -12,9 +12,7 @@ const Wishlist = () => {
 
   const fetchWishlist = async () => {
     try {
-      const res = await axios.get("/api/wishlist", { withCredentials: true },{
-        withCredentials: true
-      });
+      const res = await axios.get("/api/wishlist", );
       setWishlist(res.data);
     } catch (err) {
       console.log(err);

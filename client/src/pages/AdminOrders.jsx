@@ -49,8 +49,7 @@ const AdminOrders = () => {
     try {
 
       await axios.put(
-        `/api/orders/admin/update-status/${orderId}`,
-        { withCredentials: true },{ status }
+        `/api/orders/admin/update-status/${orderId}`,{ status }
       );
 
       fetchOrders();

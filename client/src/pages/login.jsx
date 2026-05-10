@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("/api/auth/login", { withCredentials: true },form);
+      const res = await axios.post("/api/auth/login", form);
 
       toast.success(`Welcome back ${res.data.user.name} 🎉`);
 

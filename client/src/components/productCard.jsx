@@ -14,7 +14,7 @@ const ProductCard = ({ product, addToCart, isInCart }) => {
 
 // ✅ check if already in wishlist
 useEffect(() => {
-  axios.get("/api/wishlist", { withCredentials: true })
+  axios.get("/api/wishlist",)
     .then(res => {
       const exists = res.data.items.find(
         item => item.productId === product._id
@@ -32,14 +32,13 @@ useEffect(() => {
         await axios.post(
           "/api/wishlist/remove",
           { productId: product._id },
-          { withCredentials: true }
         );
         setLiked(false);
       } else {
         await axios.post(
           "/api/wishlist/add",
           product,
-          { withCredentials: true }
+         
         );
         setLiked(true);
       }

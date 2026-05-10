@@ -12,7 +12,7 @@ const Register = () => {
 
    const handleRegister = async () => {
     try {
-      await axios.post("/api/auth/register", { withCredentials: true },form);
+      await axios.post("/api/auth/register",form);
 
       toast.success("Account created successfully 🌿✨");
 

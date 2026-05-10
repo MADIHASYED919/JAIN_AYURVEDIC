@@ -35,7 +35,7 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
         await axios.post(
           "/api/cart/remove",
           { productId: product._id },
-          { withCredentials: true }
+          
         );
         toast.success("Removed from cart 🛒");
       } else {
@@ -48,7 +48,7 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
             image: product.image,
             qty: 1,
           },
-          { withCredentials: true }
+          
         );
         toast.success("Added to cart 🛒");
       }

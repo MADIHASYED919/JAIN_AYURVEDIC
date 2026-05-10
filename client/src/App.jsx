@@ -66,7 +66,7 @@ useEffect(() => {
   const fetchCart = async () => {
     try {
 
-      const res = await axios.get("/api/cart",{ withCredentials: true });
+      const res = await axios.get("/api/cart",);
 
       const items = res.data.items || [];
 
