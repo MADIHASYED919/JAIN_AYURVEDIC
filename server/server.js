@@ -98,10 +98,6 @@ app.use(express.json());
 // SESSION
 // =======================================
 
-
-
-
-
 app.use(session({
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
@@ -114,17 +110,13 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: true,        // MUST be true on Render HTTPS
-  sameSite: "lax",    // MUST for cross-site (Vercel ↔ Render)
+    sameSite: "none",    // MUST for cross-site (Vercel ↔ Render)
     maxAge: 7 * 24 * 60 * 60 * 1000
   }
 }));
 
 
 app.set("trust proxy", 1);
-app.use((req, res, next) => {
-  console.log("SESSION:", req.session);
-  next();
-});
 
 // =======================================
 // ROUTES
