@@ -24,7 +24,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://jain-ayurvedic.vercel.app/"
+      "https://jain-ayurvedic.vercel.app"
     ],
     credentials: true
   }
@@ -77,7 +77,7 @@ app.set("io", io);
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://jain-ayurvedic.vercel.app/"
+    "https://jain-ayurvedic.vercel.app"
   ],
   credentials: true
 }));

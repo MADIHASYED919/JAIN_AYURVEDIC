@@ -3,7 +3,9 @@
 Base URL:
 
 ```bash
-http://localhost:5000
+Base URL:
+
+https://jain-ayurvedic.onrender.com
 ```
 
 ---
