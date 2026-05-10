@@ -8,16 +8,16 @@ import axios from "./axiosConfig.js"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import ProductDetails from './pages/productDetails.jsx'
-import Cart from "./pages/Cart";
+import Cart from './pages/cart.jsx';
 import Login from "./pages/login";
-import Register from "./pages/register";
+import Register from './pages/register.jsx';
 import Checkout from './pages/checkOut.jsx'
 import Orders from './pages/orders.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx'
 import OrderSuccess from './pages/orderSuccess.jsx'
-import Wishlist from "./pages/wishlist";
+import Wishlist from './pages/wishlist.jsx';
 import MedicineScanner from './pages/medicineScanner.jsx'
-import CameraScanner from './components/cameraScanner.jsx'
+import CameraScanner from './components/CameraScanner.jsx'
 import Loader from './components/Loader/Loader.jsx';
 import AdminOrders from './pages/AdminOrders.jsx';
 import DeliveryDashboard from './pages/DeliveryDashboard.jsx';
