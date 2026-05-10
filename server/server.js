@@ -21,12 +21,13 @@ const server = http.createServer(app);
 // =======================================
 
 const io = new Server(server, {
-
   cors: {
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://jain-ayurvedic.vercel.app/"
+    ],
     credentials: true
   }
-
 });
 // MAKE IO GLOBAL
 
@@ -74,7 +75,10 @@ app.set("io", io);
 // =======================================
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://jain-ayurvedic.vercel.app/"
+  ],
   credentials: true
 }));
 
@@ -108,16 +112,10 @@ app.use(session({
   saveUninitialized: false,
 
   cookie: {
-
   httpOnly: true,
-
   secure: true,
-
   sameSite: "none",
-
-  maxAge:
-    7 * 24 * 60 * 60 * 1000
-
+  maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
 }));
