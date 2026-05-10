@@ -73,7 +73,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
   ];
 
   useEffect(() => {
-    axios.get("/api/auth/me").then((res) => setUser(res.data.user));
+    axios.get("/api/auth/me",{ withCredentials: true }).then((res) => setUser(res.data.user));
   }, []);
 
   // ✅ close dropdown when clicking outside
@@ -118,7 +118,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/auth/logout");
+      await axios.post("/api/auth/logout",{ withCredentials: true });
       setUser(null);
       navigate("/");
     } catch (err) {
@@ -185,7 +185,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
     formData.append("image", image);
 
     try {
-      const res = await axios.post("/api/scan", formData, {
+      const res = await axios.post("/api/scan", { withCredentials: true },formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

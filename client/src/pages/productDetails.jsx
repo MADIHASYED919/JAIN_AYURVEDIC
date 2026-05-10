@@ -24,7 +24,7 @@ const ProductDetails = ({
 
   useEffect(() => {
     axios
-      .get(`/api/products/${id}`)
+      .get(`/api/products/${id}`,{ withCredentials: true })
       .then((res) => {
         const data = res.data;
 
@@ -42,7 +42,7 @@ const ProductDetails = ({
     if (!id) return;
 
     axios
-      .get(`/api/products/related/${id}`)
+      .get(`/api/products/related/${id}`,{ withCredentials: true })
       .then((res) => setRelatedProducts(res.data))
       .catch(console.log);
   }, [id]);
@@ -52,13 +52,13 @@ const ProductDetails = ({
   const toggleCart = async () => {
     try {
       if (isInCart(product._id)) {
-        await axios.post("/api/cart/remove", {
+        await axios.post("/api/cart/remove",{ withCredentials: true }, {
           productId: product._id,
         });
 
         toast.success("Removed from cart ❌");
       } else {
-        await axios.post("/api/cart/add", {
+        await axios.post("/api/cart/add", { withCredentials: true },{
           productId: product._id,
           name: product.name,
           price: product.price,

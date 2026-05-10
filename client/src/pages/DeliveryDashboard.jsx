@@ -21,7 +21,7 @@ const DeliveryDashboard = () => {
     try {
 
       const res = await axios.get(
-        "/api/orders/admin/all"
+        "/api/orders/admin/all",{ withCredentials: true }
       );
 
       // ONLY OUT FOR DELIVERY
@@ -59,7 +59,7 @@ const DeliveryDashboard = () => {
 
       const res = await axios.post(
 
-        `/api/orders/verify-delivery-otp/${orderId}`,
+        `/api/orders/verify-delivery-otp/${orderId}`,{ withCredentials: true },
 
         {
           otp: otpData[orderId]

@@ -18,7 +18,7 @@ const AdminOrders = () => {
     try {
 
       const res = await axios.get(
-        "/api/orders/admin/all"
+        "/api/orders/admin/all",{ withCredentials: true }
       );
 
       setOrders(res.data);
@@ -50,7 +50,7 @@ const AdminOrders = () => {
 
       await axios.put(
         `/api/orders/admin/update-status/${orderId}`,
-        { status }
+        { withCredentials: true },{ status }
       );
 
       fetchOrders();

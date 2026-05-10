@@ -19,7 +19,7 @@ const MedicineScanner = () => {
     setLoading(true);
 
     const res = await axios.post(
-      "/api/scan",
+      "/api/scan",{ withCredentials: true },
       formData,
       {
         headers: {

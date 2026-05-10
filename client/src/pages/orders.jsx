@@ -64,7 +64,7 @@ useEffect(() => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("/api/orders/my");
+      const res = await axios.get("/api/orders/my",{ withCredentials: true });
 
       setOrders(res.data);
     } catch (err) {
@@ -78,7 +78,7 @@ useEffect(() => {
 
   const cancelOrder = async (orderId) => {
     try {
-      await axios.put(`/api/orders/cancel/${orderId}`);
+      await axios.put(`/api/orders/cancel/${orderId}`,{ withCredentials: true });
 
       fetchOrders();
     } catch (err) {

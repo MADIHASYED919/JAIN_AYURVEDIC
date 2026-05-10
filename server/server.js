@@ -99,26 +99,23 @@ app.use(express.json());
 // =======================================
 
 app.use(session({
-
   store: MongoStore.create({
-    mongoUrl:
-      process.env.MONGO_URI,
+    mongoUrl: process.env.MONGO_URI,
   }),
 
   secret: "mysupersecretkey",
-
   resave: false,
-
   saveUninitialized: false,
 
-cookie: {
-  httpOnly: true,
-  secure: true, // keep for production HTTPS
-  sameSite: "none",
-  maxAge: 7 * 24 * 60 * 60 * 1000
-}
-
+  cookie: {
+    httpOnly: true,
+    secure: true,        // MUST be true on Render HTTPS
+    sameSite: "none",    // MUST for cross-site (Vercel ↔ Render)
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  }
 }));
+
+
 app.set("trust proxy", 1);
 
 // =======================================

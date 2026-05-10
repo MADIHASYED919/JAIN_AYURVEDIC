@@ -104,7 +104,7 @@ const [loading, setLoading] =useState(false);
     setLoading(true);
 
     const res = await axios.post(
-      "/api/orders/place",
+      "/api/orders/place",{ withCredentials: true },
       {
         address,
         items: itemsToOrder.map(item => ({

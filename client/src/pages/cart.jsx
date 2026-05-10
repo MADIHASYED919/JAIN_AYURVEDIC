@@ -22,7 +22,7 @@ const [savedItems, setSavedItems] = useState([]);
 
     try {
 
-      const res = await axios.get("/api/cart");
+      const res = await axios.get("/api/cart",{ withCredentials: true });
 
       setItems(res.data.items || []);
       setSavedItems(res.data.savedItems || []);
@@ -56,7 +56,7 @@ const removeItem = async (productId) => {
 
   try {
 
-    await axios.post("/api/cart/remove", {
+    await axios.post("/api/cart/remove", { withCredentials: true },{
       productId,
     });
 
@@ -84,7 +84,7 @@ const saveForLater = async (productId) => {
   try {
 
     const res = await axios.post(
-      "/api/cart/save-for-later",
+      "/api/cart/save-for-later",{ withCredentials: true },
       {
         productId,
       }
@@ -112,7 +112,7 @@ const moveToCart = async (productId) => {
   try {
 
     const res = await axios.post(
-      "/api/cart/move-to-cart",
+      "/api/cart/move-to-cart",{ withCredentials: true },
       {
         productId,
       }
