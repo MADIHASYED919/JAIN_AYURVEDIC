@@ -29,6 +29,8 @@ import { useState, useEffect, useRef } from "react";
 import axios from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
+import logo from "../assets/logo.png";
+
 
 import "./navbar.css";
 
@@ -199,7 +201,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
     <>
       <div className="navbar">
         <div className="logo">
-          <img src="/logo.png" alt="logo" className="logo" />
+          <img src={logo} alt="logo" className="logo" />
         </div>
 
         <div className="search-container">

@@ -26,6 +26,8 @@ router.post("/add",isAuth, async (req, res) => {
   try {
 
      const userId = req.session.user.id; // ✅ FIXED
+
+     
     const {productId, name, price, image, qty } = req.body;
 const finalImage = Array.isArray(image) ? image[0] : image;
 
