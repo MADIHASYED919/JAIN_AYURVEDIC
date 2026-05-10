@@ -9,31 +9,25 @@ router.get("/", async (req, res) => {
 
     let query = {};
 
+    // ✅ category
     if (category && category !== "All") {
       query.category = category.toLowerCase();
     }
 
+    // ✅ price range
     if (minPrice || maxPrice) {
       query.price = {};
+
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
     const products = await Product.find(query);
 
-    // ✅ ALWAYS return consistent structure
-    return res.json({
-      success: true,
-      count: products.length,
-      products
-    });
+    res.json(products);
 
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      error: err.message,
-      products: []   // 🔥 prevents UI crash
-    });
+    res.status(500).json({ error: err.message });
   }
 });
 
