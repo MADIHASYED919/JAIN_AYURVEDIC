@@ -1,87 +1,72 @@
-import './App.css'
-import Navbar from './components/navbar.jsx'
-import Home from './pages/home.jsx'
+import "./App.css";
+import Navbar from "./components/navbar.jsx";
+import Home from "./pages/home.jsx";
 
-import { useEffect, useState } from 'react';
-import axios from "./axiosConfig.js"
+import { useEffect, useState } from "react";
+import axios from "./axiosConfig.js";
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import ProductDetails from './pages/productDetails.jsx'
-import Cart from './pages/cart.jsx';
+import ProductDetails from "./pages/productDetails.jsx";
+import Cart from "./pages/cart.jsx";
 import Login from "./pages/login";
-import Register from './pages/register.jsx';
-import Checkout from './pages/checkOut.jsx'
-import Orders from './pages/orders.jsx'
-import AdminDashboard from './pages/AdminDashboard.jsx'
-import OrderSuccess from './pages/orderSuccess.jsx'
-import Wishlist from './pages/wishlist.jsx';
-import MedicineScanner from './pages/medicineScanner.jsx'
-import CameraScanner from './components/CameraScanner.jsx'
-import Loader from './components/Loader/Loader.jsx';
-import AdminOrders from './pages/AdminOrders.jsx';
-import DeliveryDashboard from './pages/DeliveryDashboard.jsx';
+import Register from "./pages/register.jsx";
+import Checkout from "./pages/checkOut.jsx";
+import Orders from "./pages/orders.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import OrderSuccess from "./pages/orderSuccess.jsx";
+import Wishlist from "./pages/wishlist.jsx";
+import MedicineScanner from "./pages/medicineScanner.jsx";
+import CameraScanner from "./components/CameraScanner.jsx";
+import Loader from "./components/Loader/Loader.jsx";
+import AdminOrders from "./pages/AdminOrders.jsx";
+import DeliveryDashboard from "./pages/DeliveryDashboard.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 function App() {
-
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [cartCount, setCartCount] = useState(0);
 
+  //  const [loading, setLoading] = useState(true);
 
+  //   useEffect(() => {
 
-//  const [loading, setLoading] = useState(true);
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //     }, 5000);
 
-//   useEffect(() => {
+  //   }, []);
+  const [showLoader, setShowLoader] = useState(false);
 
-//     setTimeout(() => {
-//       setLoading(false);
-//     }, 5000);
+  useEffect(() => {
+    const alreadyVisited = sessionStorage.getItem("jain-loader");
 
-//   }, []);
-const [showLoader, setShowLoader] = useState(false);
+    if (!alreadyVisited) {
+      setShowLoader(true);
 
-useEffect(() => {
+      sessionStorage.setItem("jain-loader", "true");
 
-  const alreadyVisited = sessionStorage.getItem("jain-loader");
-
-  if (!alreadyVisited) {
-
-    setShowLoader(true);
-
-    sessionStorage.setItem("jain-loader", "true");
-
-    setTimeout(() => {
-      setShowLoader(false);
-    }, 7000);
-
-  }
-
-}, []);
-
-
-
+      setTimeout(() => {
+        setShowLoader(false);
+      }, 7000);
+    }
+  }, []);
 
   // ✅ FETCH CART
   const fetchCart = async () => {
     try {
-
-      const res = await axios.get("/api/cart",);
+      const res = await axios.get("/api/cart");
 
       const items = res.data.items || [];
 
       setCartItems(items);
 
       // ✅ FIXED
-      const totalQty = items.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-      );
+      const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
 
       setCartCount(totalQty);
-
     } catch (err) {
-
       console.log(err);
 
       setCartItems([]);
@@ -92,7 +77,7 @@ useEffect(() => {
   // ✅ CHECK PRODUCT IN CART
   const isInCart = (productId) => {
     return cartItems.some(
-      item => String(item.productId) === String(productId)
+      (item) => String(item.productId) === String(productId),
     );
   };
 
@@ -101,17 +86,12 @@ useEffect(() => {
     fetchCart();
   }, []);
   if (showLoader) {
-  return <Loader />;
-}
+    return <Loader />;
+  }
 
   return (
-    
     <>
-   
-
       <Router>
-        
-
         <Navbar
           cartCount={cartCount}
           searchQuery={searchQuery}
@@ -119,7 +99,6 @@ useEffect(() => {
         />
 
         <Routes>
-
           <Route
             path="/"
             element={
@@ -134,19 +113,13 @@ useEffect(() => {
           <Route
             path="/product/:id"
             element={
-              <ProductDetails
-                fetchCart={fetchCart}
-                isInCart={isInCart}
-              />
+              <ProductDetails fetchCart={fetchCart} isInCart={isInCart} />
             }
           />
 
           <Route
             path="/cart"
-            element={ <Cart
-      cartItems={cartItems}
-      fetchCart={fetchCart}
-    />}
+            element={<Cart cartItems={cartItems} fetchCart={fetchCart} />}
           />
 
           <Route path="/login" element={<Login />} />
@@ -154,46 +127,45 @@ useEffect(() => {
 
           <Route
             path="/checkout"
-            element={
-              <Checkout
-                cartItems={cartItems}
-                fetchCart={fetchCart}
-              />
-            }
+            element={<Checkout cartItems={cartItems} fetchCart={fetchCart} />}
           />
 
           <Route path="/orders" element={<Orders />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+
+
+         <Route
+  path="/admin"
+  element={
+    <AdminRoute>
+      <AdminDashboard />
+    </AdminRoute>
+  }
+/>
+
+
           <Route path="/success" element={<OrderSuccess />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          <Route
+            path="/wishlist"
+            element={<Wishlist cartItems={cartItems} fetchCart={fetchCart} />}
+          />
+
           <Route path="/scanner" element={<MedicineScanner />} />
           <Route path="/live-scan" element={<CameraScanner />} />
 
-<Route
+         <Route
   path="/admin/orders"
-  element={<AdminOrders />}
+  element={
+    <AdminRoute>
+      <AdminOrders />
+    </AdminRoute>
+  }
 />
 
-
-<Route
-  path="/delivery"
-  element={<DeliveryDashboard />}
-/>
-
-
-
-
-
+          <Route path="/delivery" element={<DeliveryDashboard />} />
         </Routes>
-
       </Router>
-
-     
-  
-
-  </>
-    
+    </>
   );
-};
+}
 
 export default App;

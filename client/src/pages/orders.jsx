@@ -21,7 +21,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   // const [otp, setOtp] = useState("");
   const [otpData, setOtpData] = useState({});
-
+const [loading, setLoading] = useState(true);
   // =========================
   // FETCH ORDERS
   // =========================
@@ -63,14 +63,66 @@ useEffect(() => {
 }, []);
 
   const fetchOrders = async () => {
-    try {
-      const res = await axios.get("/api/orders/my",);
 
-      setOrders(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  try {
+
+    setLoading(true);
+
+    const res = await axios.get("/api/orders/my");
+
+    setOrders(res.data);
+
+  } catch (err) {
+
+    console.log(err);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+};
+
+
+
+const downloadInvoice = async (id) => {
+
+  try {
+
+    const res = await axios.get(
+      `/api/orders/invoice/${id}`,
+      {
+        responseType: "blob",
+      }
+    );
+
+    const url =
+      window.URL.createObjectURL(
+        new Blob([res.data])
+      );
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.setAttribute(
+      "download",
+      `invoice-${id}.pdf`
+    );
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+};
 
   // =========================
   // CANCEL ORDER
@@ -85,6 +137,10 @@ useEffect(() => {
       console.log(err);
     }
   };
+
+if (loading) {
+  return <h2>Loading orders...</h2>;
+}
 
   return (
     <div className="orders-page">
@@ -225,10 +281,7 @@ useEffect(() => {
               <button
                 className="invoice-btn"
                 onClick={() =>
-                  window.open(
-                    `/api/orders/invoice/${order._id}`,
-                    "_blank",
-                  )
+                 downloadInvoice(order._id)
                 }
               >
                 <FaFileInvoice />

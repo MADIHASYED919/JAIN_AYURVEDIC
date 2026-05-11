@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
 const isAdmin = require("../middleware/isAdmin");
+const isAuth=require ("../middleware/isAuth")
 
 router.get("/", async (req, res) => {
   try {
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
 
 
 // ✅ ADMIN ADD PRODUCT
-router.post("/add", isAdmin, async (req, res) => {
+router.post("/add",isAuth,isAdmin, async (req, res) => {
   try {
     const product = new Product(req.body);
     await product.save();

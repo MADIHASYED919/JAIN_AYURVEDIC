@@ -21,6 +21,8 @@ import {
 } from "react-icons/hi2";
 import { FaBagShopping } from "react-icons/fa6";
 import { MdOutlineSearch } from "react-icons/md";
+import { FaUserShield } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 import { FaFilter, FaRupeeSign, FaTags } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -30,13 +32,17 @@ import axios from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo.png";
+import { useAuth }
+from "../context/authContext";
 
 
 import "./navbar.css";
 
 const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
+const { user, setUser } = useAuth();
+
   const [listening, setListening] = useState(false);
-  const [user, setUser] = useState(null);
+
 
   // const [open, setOpen] = useState(false);
   // const [showFilter, setShowFilter] = useState(false);
@@ -72,9 +78,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
     "Tonic",
   ];
 
-  useEffect(() => {
-    axios.get("/api/auth/me",).then((res) => setUser(res.data.user));
-  }, []);
+
 
   // ✅ close dropdown when clicking outside
   useEffect(() => {
@@ -122,18 +126,21 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
 
     await axios.post("/api/auth/logout");
 
-    // ✅ REMOVE TOKEN
     localStorage.removeItem("token");
 
     setUser(null);
 
-    navigate("/");
+    navigate("/login");
 
   } catch (err) {
 
-    console.log(err);
+    console.log(
+      "LOGOUT ERROR:",
+      err.response?.data || err.message
+    );
 
   }
+
 };
 
   const startVoiceSearch = () => {
@@ -211,7 +218,7 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
     <>
       <div className="navbar">
         <div className="logo">
-          <img src={logo} alt="logo" className="logo" />
+          <img src={logo}onClick={() => navigate("/")} alt="logo"/>
         </div>
 
         <div className="search-container">
@@ -262,6 +269,32 @@ const Navbar = ({ cartCount, searchQuery, setSearchQuery }) => {
               <FaHome onClick={() => navigate("/")} />
 
       </div>
+
+
+{
+  user?.isAdmin && (
+
+    <>
+      <div
+        className="nav-icon"
+        onClick={() => navigate("/admin")}
+        title="Admin Dashboard"
+      >
+        <MdAdminPanelSettings />
+      </div>
+
+      <div
+        className="nav-icon"
+        onClick={() => navigate("/admin/orders")}
+        title="Manage Orders"
+      >
+        <FaUserShield />
+      </div>
+    </>
+
+  )
+}
+
             <div className="filter-wrapper" ref={desktopFilterRef}>
            <div className="nav-icon">
                <FaTh onClick={() => setDesktopFilter(!desktopFilter)} />

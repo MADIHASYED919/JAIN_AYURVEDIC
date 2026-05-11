@@ -3,6 +3,7 @@ const router = express.Router();
 const Order = require("../models/order");
 const Cart = require("../models/cart");
 const isAuth = require("../middleware/isAuth");
+const isAdmin = require("../middleware/isAdmin");
 
 const { orderValidation } = require("../validationSchema");
 const sendEmail = require("../services/sendEmails");
@@ -195,8 +196,7 @@ router.get("/my", isAuth, async (req, res) => {
 // ===============================
 // ADMIN - GET ALL ORDERS
 // ===============================
-
-router.get("/admin/all", async (req, res) => {
+router.get("/admin/all", isAuth, isAdmin, async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
 
@@ -285,7 +285,11 @@ router.get("/invoice/:id", isAuth, async (req, res) => {
 // UPDATE ORDER STATUS
 // ============================================
 
-router.put("/update-status/:id", async (req, res) => {
+router.put(
+  "/update-status/:id",
+  isAuth,
+  isAdmin,
+  async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -484,7 +488,11 @@ router.post("/verify-delivery-otp/:id", async (req, res) => {
 // ADMIN UPDATE STATUS
 // ===============================
 
-router.put("/admin/update-status/:id", async (req, res) => {
+router.put(
+  "/admin/update-status/:id",
+  isAuth,
+  isAdmin,
+  async (req, res) => {
   try {
     const { status } = req.body;
 

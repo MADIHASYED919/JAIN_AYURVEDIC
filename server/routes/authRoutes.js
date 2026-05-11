@@ -203,4 +203,21 @@ router.get("/me", async (req, res) => {
 
 });
 
+
+
+// =======================================
+// LOGOUT
+// =======================================
+
+router.post("/logout", (req, res) => {
+
+  res.json({
+    success: true,
+    message: "Logged out successfully"
+  });
+
+});
+
+
+
 module.exports = router;

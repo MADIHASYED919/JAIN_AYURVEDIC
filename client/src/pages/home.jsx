@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 const Home = ({ cartItems, fetchCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cartLoading, setCartLoading] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,40 +28,56 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
       : products;
 
   // ================= ADD / REMOVE CART =================
-  const addToCart = async (product) => {
-    try {
-      const exists = isInCart(product._id);
+const addToCart = async (product) => {
 
-      if (exists) {
-        await axios.post(
-          "/api/cart/remove",
-          { productId: product._id },
-          
-        );
-        toast.success("Removed from cart 🛒");
-      } else {
-        await axios.post(
-          "/api/cart/add",
-          {
-            productId: product._id,
-            name: product.name,
-            price: product.price,
-            image: product.image,
-            qty: 1,
-          },
-          
-        );
-        toast.success("Added to cart 🛒");
-      }
+  if (cartLoading) return;
 
-      fetchCart();
-    } catch (err) {
-      if (err.response?.status === 401) {
-        toast.error("Please login first 🔐");
-        window.location.href = "/login";
-      }
+  try {
+
+    setCartLoading(true);
+
+    const exists = isInCart(product._id);
+
+    if (exists) {
+
+      await axios.post("/api/cart/remove", {
+        productId: product._id
+      });
+
+      toast.success("Removed from cart 🛒");
+
+    } else {
+
+      await axios.post("/api/cart/add", {
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        qty: 1,
+      });
+
+      toast.success("Added to cart 🛒");
+
     }
-  };
+
+    await fetchCart();
+
+  } catch (err) {
+
+    if (err.response?.status === 401) {
+
+      toast.error("Please login first 🔐");
+
+      navigate("/login");
+
+    }
+
+  } finally {
+
+    setCartLoading(false);
+
+  }
+};
 
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
@@ -84,6 +101,9 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
       .catch(console.log)
       .finally(() => setLoading(false));
   }, [location.search]);
+  // ================= FETCH WISHLIST IDS =================
+
+
 
   // ================= UI STATES =================
   const showNoResult =
@@ -129,6 +149,7 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
               product={product}
               addToCart={addToCart}
               isInCart={isInCart(product._id)}
+               
             />
           ))}
       </div>

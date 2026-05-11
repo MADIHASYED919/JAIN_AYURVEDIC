@@ -4,48 +4,71 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "../axiosConfig";
 import { useState,useEffect } from "react";
+import { useWishlist } from "../context/WishlistContext";
 
-
-const ProductCard = ({ product, addToCart, isInCart }) => {
+const ProductCard = ({ product, addToCart, isInCart,
+ }) => {
 
   const navigate = useNavigate();  // ✅ create navigate
-    const [liked, setLiked] = useState(false);
+ 
+const {
+  wishlistIds,
+  toggleWishlist,
+  loading
+} = useWishlist();
 
-
+  const liked =
+    wishlistIds.includes(
+      String(product._id)
+    );
 // ✅ check if already in wishlist
-useEffect(() => {
-  axios.get("/api/wishlist",)
-    .then(res => {
-      const exists = res.data.items.find(
-        item => item.productId === product._id
-      );
-      if (exists) setLiked(true);
-    });
-}, []);
+// useEffect(() => {
+//   axios.get("/api/wishlist",)
+//     .then(res => {
+//       const exists = res.data.items.find(
+//         item => item.productId === product._id
+//       );
+//       if (exists) setLiked(true);
+//     });
+// }, []);
 
  // ❤️ TOGGLE FUNCTION
-  const handleWishlist = async (e) => {
-    e.stopPropagation(); // ❌ STOP CARD CLICK
+ const handleWishlist = async (e) => {
 
-    try {
-      if (liked) {
-        await axios.post(
-          "/api/wishlist/remove",
-          { productId: product._id },
-        );
-        setLiked(false);
-      } else {
-        await axios.post(
-          "/api/wishlist/add",
-          product,
-         
-        );
-        setLiked(true);
-      }
-    } catch (err) {
-      console.log(err);
+  e.stopPropagation();
+
+  const oldLiked = liked;
+
+  setLiked(!liked);
+
+  try {
+
+    if (oldLiked) {
+
+      await axios.post(
+        "/api/wishlist/remove",
+        {
+          productId: product._id
+        }
+      );
+
+    } else {
+
+      await axios.post(
+        "/api/wishlist/add",
+        product
+      );
+
     }
-  };
+
+  } catch (err) {
+
+    setLiked(oldLiked);
+
+    console.log(err);
+
+  }
+};
 
 
 
@@ -58,7 +81,18 @@ useEffect(() => {
 
       
       {/* ❤️ Wishlist Icon */}
-      <div className="wishlist-icon" onClick={handleWishlist}>
+  <div
+        className="wishlist-icon"
+        onClick={(e) => {
+
+          e.stopPropagation();
+
+          toggleWishlist(product);
+
+        }}
+      >
+
+
         <FaHeart className={liked ? "heart active" : "heart"} />
       </div>
 
