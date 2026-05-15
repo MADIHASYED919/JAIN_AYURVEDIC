@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { FaLeaf, FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import "./auth.css";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/authContext";
 
 const Register = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
  
 
@@ -26,6 +28,8 @@ const Register = () => {
       "token",
       res.data.token
     );
+    // IMPORTANT
+setUser(res.data.user);
 
     toast.success(
       "Account created successfully 🌿✨"
@@ -33,7 +37,7 @@ const Register = () => {
 
     setTimeout(() => {
       navigate("/");
-    }, 1200);
+    }, 1000);
 
   } catch (err) {
 

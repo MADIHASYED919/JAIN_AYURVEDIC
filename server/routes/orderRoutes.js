@@ -14,7 +14,6 @@ const {
 
   outForDeliveryTemplate,
 
-  
   deliveredTemplate,
 
   adminOrderTemplate,
@@ -285,11 +284,7 @@ router.get("/invoice/:id", isAuth, async (req, res) => {
 // UPDATE ORDER STATUS
 // ============================================
 
-router.put(
-  "/update-status/:id",
-  isAuth,
-  isAdmin,
-  async (req, res) => {
+router.put("/update-status/:id", isAuth, isAdmin, async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -488,11 +483,7 @@ router.post("/verify-delivery-otp/:id", async (req, res) => {
 // ADMIN UPDATE STATUS
 // ===============================
 
-router.put(
-  "/admin/update-status/:id",
-  isAuth,
-  isAdmin,
-  async (req, res) => {
+router.put("/admin/update-status/:id", isAuth, isAdmin, async (req, res) => {
   try {
     const { status } = req.body;
 

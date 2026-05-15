@@ -152,19 +152,33 @@ const ProductDetails = ({
 <button
   className="btn-secondary"
   onClick={() => {
-    navigate("/checkout", {
-       state: {
-      buyNowItem: {
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        image: Array.isArray(selectedImage)
-  ? selectedImage[0]
-  : selectedImage,
-        quantity: qty
-      }
+
+    const token = localStorage.getItem("token");
+
+    // ✅ LOGIN CHECK
+    if (!token) {
+
+      toast.error("Please login first 🔐");
+
+      navigate("/login");
+
+      return;
     }
+
+    navigate("/checkout", {
+      state: {
+        buyNowItem: {
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          image: Array.isArray(selectedImage)
+            ? selectedImage[0]
+            : selectedImage,
+          quantity: qty
+        }
+      }
     });
+
   }}
 >
   Buy Now ⚡

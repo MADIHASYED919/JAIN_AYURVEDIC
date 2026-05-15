@@ -5,16 +5,19 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaLeaf, FaLock, FaEnvelope } from "react-icons/fa";
 import "./auth.css";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/authContext";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const location = useLocation();
+  const { setUser } = useAuth();
 
   const redirect = location.state?.from || "/";
 
 
   const handleLogin = async () => {
+    
   try {
 
     const res = await axios.post(
@@ -27,7 +30,9 @@ const Login = () => {
       "token",
       res.data.token
     );
-
+    
+    // IMPORTANT
+setUser(res.data.user);
     toast.success(
       `Welcome back ${res.data.user.name} 🎉`
     );

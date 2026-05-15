@@ -8,8 +8,7 @@ import { motion } from "framer-motion";
 const Home = ({ cartItems, fetchCart, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cartLoading, setCartLoading] = useState(false);
-
+const [cartLoadingId, setCartLoadingId] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,11 +29,11 @@ const Home = ({ cartItems, fetchCart, searchQuery }) => {
   // ================= ADD / REMOVE CART =================
 const addToCart = async (product) => {
 
-  if (cartLoading) return;
+  if (cartLoadingId === product._id) return;
 
   try {
 
-    setCartLoading(true);
+    setCartLoadingId(product._id);
 
     const exists = isInCart(product._id);
 
@@ -60,7 +59,7 @@ const addToCart = async (product) => {
 
     }
 
-    await fetchCart();
+    fetchCart();
 
   } catch (err) {
 
@@ -74,11 +73,10 @@ const addToCart = async (product) => {
 
   } finally {
 
-    setCartLoading(false);
+    setCartLoadingId(null);
 
   }
 };
-
   // ================= FETCH PRODUCTS =================
   useEffect(() => {
     const params = new URLSearchParams(location.search);

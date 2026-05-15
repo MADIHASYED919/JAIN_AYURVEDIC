@@ -5,147 +5,86 @@ import axios from "../axiosConfig";
 import "./adminOrders.css";
 
 const AdminOrders = () => {
-
-  const [orders, setOrders] =
-    useState([]);
+  const [orders, setOrders] = useState([]);
 
   // ==========================
   // FETCH ORDERS
   // ==========================
 
   const fetchOrders = async () => {
-
     try {
-
-      const res = await axios.get(
-        "/api/orders/admin/all",
-      );
+      const res = await axios.get("/api/orders/admin/all");
 
       setOrders(res.data);
-
     } catch (err) {
-
       console.log(err);
-
     }
-
   };
 
   useEffect(() => {
-
     fetchOrders();
-
   }, []);
 
   // ==========================
   // UPDATE STATUS
   // ==========================
 
-  const updateStatus = async (
-    orderId,
-    status
-  ) => {
-
+  const updateStatus = async (orderId, status) => {
     try {
-
-      await axios.put(
-        `/api/orders/admin/update-status/${orderId}`,{ status }
-      );
+      await axios.put(`/api/orders/admin/update-status/${orderId}`, { status });
 
       fetchOrders();
-
     } catch (err) {
-
       console.log(err);
-
     }
-
   };
 
   return (
     <div className="admin-orders">
-
-      <h2>
-        Admin Orders Panel
-      </h2>
+      <h2>Admin Orders Panel</h2>
 
       {orders.map((order) => (
-
-        <div
-          className="admin-order-card"
-          key={order._id}
-        >
-
+        <div className="admin-order-card" key={order._id}>
           <div className="admin-top">
-
             <div>
+              <h3>{order.address.fullName}</h3>
 
-              <h3>
-                {order.address.fullName}
-              </h3>
+              <p>Tracking: {order.trackingId}</p>
 
               <p>
-                Tracking:
-                {" "}
-                {order.trackingId}
+                User Email:
+            {order.email || "No Email"}
               </p>
 
               <p>
-                Status:
-                {" "}
-                {order.status}
+                Current Status:
+                <strong>{order.status}</strong>
               </p>
-
             </div>
 
             <div>
-
-              <h3>
-                ₹{order.totalAmount}
-              </h3>
-
+              <h3>₹{order.totalAmount}</h3>
             </div>
-
           </div>
 
           {/* STATUS DROPDOWN */}
 
           <select
             value={order.status}
-            onChange={(e) =>
-              updateStatus(
-                order._id,
-                e.target.value
-              )
-            }
+            onChange={(e) => updateStatus(order._id, e.target.value)}
           >
+            <option>Placed</option>
 
-            <option>
-              Placed
-            </option>
+            <option>Confirmed</option>
 
-            <option>
-              Confirmed
-            </option>
+            <option>Packed</option>
 
-            <option>
-              Packed
-            </option>
+            <option>Shipped</option>
 
-            <option>
-              Shipped
-            </option>
+            <option>Out For Delivery</option>
 
-            <option>
-              Out For Delivery
-            </option>
-
-            <option>
-              Delivered
-            </option>
-
+            <option>Delivered</option>
           </select>
-
         </div>
       ))}
     </div>

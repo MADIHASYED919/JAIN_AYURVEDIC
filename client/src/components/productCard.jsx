@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../axiosConfig";
 import { useState,useEffect } from "react";
 import { useWishlist } from "../context/WishlistContext";
+import toast from "react-hot-toast";
 
 const ProductCard = ({ product, addToCart, isInCart,
  }) => {
@@ -33,42 +34,42 @@ const {
 // }, []);
 
  // ❤️ TOGGLE FUNCTION
- const handleWishlist = async (e) => {
+//  const handleWishlist = async (e) => {
 
-  e.stopPropagation();
+//   e.stopPropagation();
 
-  const oldLiked = liked;
+//   const oldLiked = liked;
 
-  setLiked(!liked);
+//   setLiked(!liked);
 
-  try {
+//   try {
 
-    if (oldLiked) {
+//     if (oldLiked) {
 
-      await axios.post(
-        "/api/wishlist/remove",
-        {
-          productId: product._id
-        }
-      );
+//       await axios.post(
+//         "/api/wishlist/remove",
+//         {
+//           productId: product._id
+//         }
+//       );
 
-    } else {
+//     } else {
 
-      await axios.post(
-        "/api/wishlist/add",
-        product
-      );
+//       await axios.post(
+//         "/api/wishlist/add",
+//         product
+//       );
 
-    }
+//     }
 
-  } catch (err) {
+//   } catch (err) {
 
-    setLiked(oldLiked);
+//     setLiked(oldLiked);
 
-    console.log(err);
+//     console.log(err);
 
-  }
-};
+//   }
+// };
 
 
 
@@ -85,11 +86,23 @@ const {
         className="wishlist-icon"
         onClick={(e) => {
 
-          e.stopPropagation();
+  e.stopPropagation();
 
-          toggleWishlist(product);
+  const token = localStorage.getItem("token");
 
-        }}
+  // ✅ LOGIN CHECK
+  if (!token) {
+
+    toast.error("Please login first 🔐");
+
+    navigate("/login");
+
+    return;
+  }
+
+  toggleWishlist(product);
+
+}}
       >
 
 
