@@ -304,7 +304,7 @@ const AdminDashboard = () => {
                 }
               }}
             />
-            {product.image && (
+            {product.image?.[0] && (
               <img
                 src={product.image?.[0]}
                 alt=""

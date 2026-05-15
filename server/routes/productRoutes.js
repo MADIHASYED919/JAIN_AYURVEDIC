@@ -5,8 +5,8 @@ const isAdmin = require("../middleware/isAdmin.js");
 const isAuth = require("../middleware/isAuth.js");
 
 
-  const upload =
-  require("../middleware/uploads.js");
+const cloudinary = require("../config/cloudinary");
+const upload=require("../middleware/uploads.js")
 
 
 router.get("/", async (req, res) => {
@@ -162,6 +162,8 @@ router.get("/admin/all", isAuth, isAdmin, async (req, res) => {
 // ===============================
 // IMAGE UPLOAD
 // ===============================
+
+
 router.post(
   "/upload",
   isAuth,
@@ -171,11 +173,27 @@ router.post(
   async (req, res) => {
     try {
 
+      const b64 =
+        Buffer.from(req.file.buffer).toString("base64");
+
+      const dataURI =
+        "data:" +
+        req.file.mimetype +
+        ";base64," +
+        b64;
+
+      const result =
+        await cloudinary.uploader.upload(dataURI, {
+          folder: "jain-ayurvedic-products",
+        });
+
       res.json({
-        imageUrl: req.file.path,
+        imageUrl: result.secure_url,
       });
 
     } catch (err) {
+
+      console.log(err);
 
       res.status(500).json({
         error: err.message,
