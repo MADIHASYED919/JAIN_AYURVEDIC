@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import bgImage from "./loader-bg.png";
 import logo from "./logo.png"
-import HeartbeatLine from "./HeartbeatLine";
-
 import GlowParticles from "./GlowParticles";
 import MistOverlay from "./MistOverlay";
 import DustParticles from "./DustParticles";
