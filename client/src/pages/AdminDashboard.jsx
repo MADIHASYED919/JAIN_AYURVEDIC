@@ -14,11 +14,14 @@ const AdminDashboard = () => {
   const [editingId, setEditingId] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+const [uploadProgress, setUploadProgress] = useState(0);
 
   const [product, setProduct] = useState({
     name: "",
     price: "",
-    image: "",
+    images: [],
     description: "",
     category: "",
     stock: "",
@@ -56,7 +59,7 @@ const AdminDashboard = () => {
 
       resetForm();
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data || err);
     }
   };
 
@@ -74,7 +77,7 @@ const AdminDashboard = () => {
 
       fetchProducts();
     } catch (err) {
-      console.log(err);
+      console.log(err.response?.data || err);
     }
   };
 
@@ -108,12 +111,12 @@ const AdminDashboard = () => {
     setShowModal(true);
 
     setProduct({
-      name: item.name,
-      price: item.price,
-      image: item.image,
-      description: item.description,
-      category: item.category,
-      stock: item.stock,
+      name: item.name || "",
+      price: item.price || "",
+      images: item.images || [],
+      description: item.description || "",
+      category: item.category || "",
+      stock: item.stock || "",
     });
   };
 
@@ -125,7 +128,7 @@ const AdminDashboard = () => {
     setProduct({
       name: "",
       price: "",
-      image: "",
+    images:[],
       description: "",
       category: "",
       stock: "",
@@ -220,7 +223,16 @@ const AdminDashboard = () => {
           {filteredProducts.map((item) => (
             <tr key={item._id}>
               <td>
-                <img src={item.image?.[0]} alt="" className="table-img" />
+              {item.images?.[0] && (
+  <img
+  src={
+    item.images?.[0]?.url ||
+    item.image?.[0]
+  }
+  alt=""
+  className="table-img"
+/>
+)}
               </td>
 
               <td>{item.name}</td>
@@ -276,44 +288,140 @@ const AdminDashboard = () => {
               }
             />
 
+
             <input
-              type="file"
-              placeholder="Upload Image"
-              onChange={async (e) => {
-                const file = e.target.files[0];
+  type="file"
+  multiple
 
-                const formData = new FormData();
+  onChange={async (e) => {
 
-                formData.append("image", file);
+    const files = Array.from(e.target.files);
 
-                try {
-                  const res = await axios.post(
-                    "/api/products/upload",
-                    formData,
-                  );
+    console.log(files);
+console.log(files.length);
 
-                  setProduct({
-                    ...product,
 
-                    image: [res.data.imageUrl],
-                  });
+    if (files.length === 0) return;
 
-                  alert("✅ Image uploaded");
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            />
-            {product.image?.[0] && (
-              <img
-                src={product.image?.[0]}
-                alt=""
-                width="120"
-                style={{
-                  borderRadius: "10px",
-                }}
-              />
-            )}
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
+
+    try {
+
+     setUploading(true);
+
+const res = await axios.post(
+  "/api/products/upload",
+  formData,
+  {
+    onUploadProgress: (progressEvent) => {
+
+      const percent = Math.round(
+        (progressEvent.loaded * 100) /
+        progressEvent.total
+      );
+
+      setUploadProgress(percent);
+    },
+  }
+);
+
+setUploading(false);
+
+      setProduct({
+  ...product,
+  images: [
+    ...(product.images || []),
+    ...res.data.images
+  ]
+});
+
+      alert("✅ Images uploaded");
+
+    } catch (err) {
+
+      console.log(err.response?.data || err);
+
+    }
+
+  }}
+/>
+
+          {uploading && (
+  <div className="upload-loader">
+
+    <div className="spinner"></div>
+
+    <p>Uploading {uploadProgress}%</p>
+
+  </div>
+)}  
+
+<div className="preview-gallery">
+
+  {product.images?.map((img, index) => (
+
+    <div className="preview-item" key={index}>
+
+      <img
+        src={img.url}
+        alt=""
+        width="100"
+        className="preview-img"
+      />
+
+      <button
+        className="remove-btn"
+       onClick={async () => {
+
+  try {
+
+    await axios.delete(
+      "/api/products/delete-image",
+      {
+        data: {
+          public_id: img.public_id
+        }
+      }
+    );
+
+    const updatedImages =
+      product.images.filter(
+        (_, i) => i !== index
+      );
+
+    setProduct({
+      ...product,
+      images: updatedImages,
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+}}
+      >
+        ✕
+      </button>
+
+    </div>
+
+  ))}
+
+</div>
+
+
+
+
+
+      
+
+
 
             <input
               placeholder="Category"

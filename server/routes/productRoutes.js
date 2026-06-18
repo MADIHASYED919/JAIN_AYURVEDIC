@@ -46,12 +46,26 @@ router.post("/", async (req, res) => {
 // ✅ ADMIN ADD PRODUCT
 router.post("/add", isAuth, isAdmin, async (req, res) => {
   try {
+
+    console.log("BODY:", req.body);
+
     const product = new Product(req.body);
+
     await product.save();
 
-    res.json({ success: true, product });
+    res.json({
+      success: true,
+      product,
+    });
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.log("ADD PRODUCT ERROR:", err);
+
+    res.status(500).json({
+      error: err.message,
+    });
+
   }
 });
 
@@ -168,32 +182,51 @@ router.post(
   "/upload",
   isAuth,
   isAdmin,
-  upload.single("image"),
+  upload.array("images", 5),
 
   async (req, res) => {
     try {
 
-      const b64 =
-        Buffer.from(req.file.buffer).toString("base64");
-
-      const dataURI =
-        "data:" +
-        req.file.mimetype +
-        ";base64," +
-        b64;
-
-      const result =
-        await cloudinary.uploader.upload(dataURI, {
-          folder: "jain-ayurvedic-products",
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({
+          error: "No files uploaded",
         });
+      }
+
+      const uploadedImages = [];
+
+      for (const file of req.files) {
+
+        const b64 =
+          Buffer.from(file.buffer).toString("base64");
+
+        const dataURI =
+          `data:${file.mimetype};base64,${b64}`;
+
+        const result =
+          await cloudinary.uploader.upload(dataURI, {
+            folder: "jain-ayurvedic-products",
+          });
+
+
+
+uploadedImages.push({
+  url: result.secure_url,
+  public_id: result.public_id,
+  isMain: uploadedImages.length === 0
+});
+       
+
+
+      }
 
       res.json({
-        imageUrl: result.secure_url,
+        images: uploadedImages,
       });
 
     } catch (err) {
 
-      console.log(err);
+      console.log("MULTI UPLOAD ERROR:", err);
 
       res.status(500).json({
         error: err.message,
@@ -202,6 +235,45 @@ router.post(
     }
   }
 );
+
+
+
+router.delete(
+  "/delete-image",
+
+  isAuth,
+  isAdmin,
+
+  async (req, res) => {
+
+    try {
+
+      const { public_id } = req.body;
+
+      await cloudinary.uploader.destroy(public_id);
+
+      res.json({
+        success: true
+      });
+
+    } catch (err) {
+
+      res.status(500).json({
+        error: err.message
+      });
+
+    }
+
+  }
+);
+
+
+
+
+
+
+
+
 
 
 

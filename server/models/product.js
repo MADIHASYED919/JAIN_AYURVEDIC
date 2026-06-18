@@ -5,7 +5,24 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
-  image: [String],
+
+images: [
+  {
+    url: String,
+
+    public_id: String,
+
+    isMain: {
+      type: Boolean,
+      default: false
+    }
+  }
+],
+
+
+
+
+
   description: String,
   category: String,
   stock: {

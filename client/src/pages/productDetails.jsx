@@ -29,11 +29,13 @@ const ProductDetails = ({
         const data = res.data;
 
         // ✅ normalize images
-        const imagesArray =
-          data.images && data.images.length > 0 ? data.images : [data.image];
+const imagesArray =
+  data.images?.length > 0
+    ? data.images
+    : [];
 
         setProduct({ ...data, images: imagesArray });
-        setSelectedImage(imagesArray[0]);
+       setSelectedImage(imagesArray[0]?.url || "");
       })
       .catch((err) => console.log(err));
   }, [id]);
@@ -62,7 +64,7 @@ const ProductDetails = ({
           productId: product._id,
           name: product.name,
           price: product.price,
-          image: selectedImage,
+          images: selectedImage,
           qty: qty,
         });
 
@@ -89,16 +91,28 @@ const ProductDetails = ({
       {/* LEFT SIDE */}
       <div className="details-left">
         {/* THUMBNAILS COLUMN */}
-        <div className="thumb-column">
-          {product.images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              className={selectedImage === img ? "active-thumb" : ""}
-              onClick={() => setSelectedImage(img)}
-            />
-          ))}
-        </div>
+       <div className="thumb-column">
+
+  {product.images.map((img, index) => (
+
+    <img
+      key={index}
+      src={img.url}
+
+      className={
+        selectedImage === img.url
+          ? "active-thumb"
+          : ""
+      }
+
+      onClick={() =>
+        setSelectedImage(img.url)
+      }
+    />
+
+  ))}
+
+</div>
 
         {/* MAIN IMAGE + ZOOM */}
         <div className="main-image-area">
@@ -171,7 +185,7 @@ const ProductDetails = ({
           productId: product._id,
           name: product.name,
           price: product.price,
-          image: Array.isArray(selectedImage)
+          images: Array.isArray(selectedImage)
             ? selectedImage[0]
             : selectedImage,
           quantity: qty
