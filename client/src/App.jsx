@@ -22,7 +22,7 @@ import Loader from "./components/Loader/Loader.jsx";
 import AdminOrders from "./pages/AdminOrders.jsx";
 import DeliveryDashboard from "./pages/DeliveryDashboard.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
-
+import PageTransition from "./pages/PageTransition.jsx";
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");

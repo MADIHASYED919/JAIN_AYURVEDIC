@@ -74,7 +74,18 @@
 
   display: flex;
   justify-content: center;
+    animation: imageFade 0.25s ease;
 }
+@keyframes main-image-area {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 
 /* ================= RIGHT SIDE ================= */
 
@@ -352,5 +363,65 @@
 
   .related-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* ================= PAGE FADE ================= */
+
+.product-fade{
+
+  animation: productFade 0.35s ease;
+
+}
+
+@keyframes productFade{
+
+  from{
+
+    opacity: 0;
+
+    transform: translateY(8px);
+
+  }
+
+  to{
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+/* ================= LOADING ================= */
+
+.product-loading{
+
+  min-height: 70vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 22px;
+
+  font-weight: 600;
+
+}
+
+
+.page-enter {
+  animation: pageEnter 0.3s ease;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

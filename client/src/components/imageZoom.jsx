@@ -51,7 +51,7 @@ const ImageZoom = ({ src }) => {
         className={`zoom-view ${showZoom ? "active" : ""}`}
         style={{
           backgroundImage: `url(${src})`,
-          backgroundPosition: `${-lensPos.x * 2.2 + 180}px ${-lensPos.y * 2.2 + 180}px`
+          backgroundPosition: `${-lensPos.x * 3.0 + 200}px ${-lensPos.y * 3.0 + 200}px`
         }}
       />
     

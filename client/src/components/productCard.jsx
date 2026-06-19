@@ -121,9 +121,6 @@ const {
 />
 )}
 
-
-
-
       <h4>{product.name}</h4>
       <p className="category">{product.category}</p>
 

@@ -100,28 +100,6 @@ transition={{
         </motion.h2>
 
 
-
-
-{/* ECG Heartbeat */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{
-    delay: 1,
-    duration: 1,
-  }}
->
-  <HeartbeatLine />
-</motion.div>
-
-
-
-
-
-
-
-
-
         {/* Logo */}
         <motion.div
           className="logo-wrapper"

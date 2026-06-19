@@ -6,8 +6,8 @@ import "./productDetails.css";
 import ImageZoom from "../components/imageZoom";
 import toast from "react-hot-toast";
 import ProductCard from "../components/productCard";
-
-const ProductDetails = ({
+import PageTransition from "./PageTransition";
+const ProductDetails = ({ 
   setCartCount,
   fetchCartCount,
   isInCart,
@@ -19,26 +19,48 @@ const ProductDetails = ({
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [qty, setQty] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`/api/products/${id}`,)
-      .then((res) => {
-        const data = res.data;
 
-        // ✅ normalize images
-const imagesArray =
-  data.images?.length > 0
-    ? data.images
-    : [];
+  setLoading(true);
+   setProduct(null);
 
-        setProduct({ ...data, images: imagesArray });
-       setSelectedImage(imagesArray[0]?.url || "");
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
+  axios
+    .get(`/api/products/${id}`)
+    .then((res) => {
+
+      const data = res.data;
+
+      const imagesArray =
+        data.images?.length > 0
+          ? data.images
+          : [];
+
+      setProduct({
+        ...data,
+        images: imagesArray
+      });
+
+      setSelectedImage(
+        imagesArray[0]?.url || ""
+      );
+
+      setLoading(false);
+
+    })
+    .catch((err) => {
+
+      console.log(err);
+
+      setLoading(false);
+
+    });
+
+}, [id]);
+  
 
   useEffect(() => {
     if (!id) return;
@@ -49,9 +71,24 @@ const imagesArray =
       .catch(console.log);
   }, [id]);
 
-  if (!product || !product._id) return <h2>Loading...</h2>;
 
-  const toggleCart = async () => {
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, [id]);
+
+
+//  if (loading) {
+//   return (
+//     <div className="product-loading">
+//       Loading Product...
+//     </div>
+//   );
+// }
+if (loading && !product) {
+  return null;
+}
+
+  const toggleCart = async (selectedProduct = product)  => {
     try {
       if (isInCart(product._id)) {
         await axios.post("/api/cart/remove", {
@@ -61,10 +98,10 @@ const imagesArray =
         toast.success("Removed from cart ❌");
       } else {
         await axios.post("/api/cart/add",{
-          productId: product._id,
-          name: product.name,
-          price: product.price,
-          images: selectedImage,
+          productId: selectedProduct._id,
+          name:selectedProduct.name,
+          price:selectedProduct.price,
+          image: selectedImage,
           qty: qty,
         });
 
@@ -85,8 +122,14 @@ const imagesArray =
     }
   };
 
+
+
   return (
     <>
+    <div
+  key={id}
+  className="product-fade"
+>
     <div className="details-container">
       {/* LEFT SIDE */}
       <div className="details-left">
@@ -185,7 +228,7 @@ const imagesArray =
           productId: product._id,
           name: product.name,
           price: product.price,
-          images: Array.isArray(selectedImage)
+          image: Array.isArray(selectedImage)
             ? selectedImage[0]
             : selectedImage,
           quantity: qty
@@ -214,16 +257,19 @@ const imagesArray =
     ) : (
       relatedProducts.map(item => (
         <ProductCard
-          key={item._id}
-          product={item}
-          addToCart={toggleCart} // reuse logic
-          isInCart={isInCart(item._id)}
-        />
+  key={item._id}
+  product={item}
+  addToCart={toggleCart}
+  isInCart={isInCart(item._id)}
+/>
       ))
     )}
   </div>
 </div>
-    </>
+
+</div>
+
+</>
     
   );
 };
